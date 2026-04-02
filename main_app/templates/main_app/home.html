@@ -1,2 +1,28 @@
-<h1>Selamat Datang di Kota Velmore</h1>
-<p>Ini adalah halaman utama website.</p>
+<h1>Selamat Datang di Velmoracity</h1>
+
+<p>Aplikasi laporan masalah kota</p>
+
+<a href="/add/">Tambah Laporan</a>
+
+<hr>
+
+<h2>Daftar Laporan</h2>
+
+{% for report in reports %}
+<div style="border:1px solid black; padding:10px; margin-top:10px;">
+
+    <p><b>Judul:</b> {{ report.title }}</p>
+    <p><b>Lokasi:</b> {{ report.location }}</p>
+    <p><b>Status:</b> {{ report.status }}</p>
+
+    <a href="/update/{{ report.id }}">Edit</a> |
+    <a href="/delete/{{ report.id }}">Hapus</a> |
+
+    {% if report.status == "REPORTED" %}
+        <a href="/verify/{{ report.id }}">Verifikasi</a>
+    {% else %}
+        ✔ Sudah Diverifikasi
+    {% endif %}
+
+</div>
+{% endfor %}
