@@ -79,3 +79,7 @@ def about(request):
 
 def contacts(request):
     return render(request, 'contacts/contacts.html')
+
+def report_detail(request, pk):
+    report = get_object_or_404(Report, pk=pk)
+    return render(request, 'main_app/report_detail.html', {'report': report})

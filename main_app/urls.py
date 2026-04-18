@@ -20,4 +20,5 @@ urlpatterns = [
     path('report/<int:pk>/', ReportDetailView.as_view(), name='report_detail'),
     path('about/', views.about, name='about'),
     path('contacts/', views.contacts, name='contacts'),
+    path('detail/<int:pk>/', views.report_detail, name='report_detail'),
 ]
