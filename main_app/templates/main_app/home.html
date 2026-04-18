@@ -1,28 +1,48 @@
-<h1>Selamat Datang di Velmoracity</h1>
+{% extends 'base.html' %}
 
-<p>Aplikasi laporan masalah kota</p>
+{% block content %}
 
-<a href="/add/">Tambah Laporan</a>
+<div style="text-align:center; margin-top:80px;">
 
-<hr>
+    <h1 style="
+        font-weight:bold;
+        font-size:40px;
+        text-shadow:0 0 10px rgba(255,255,255,0.6);
+    ">
+        Selamat Datang di Velmora City
+    </h1>
 
-<h2>Daftar Laporan</h2>
+    <p style="opacity:0.8;">
+        Aplikasi laporan masalah kota
+    </p>
 
-{% for report in reports %}
-<div style="border:1px solid black; padding:10px; margin-top:10px;">
+    <div style="margin-top:30px;">
 
-    <p><b>Judul:</b> {{ report.title }}</p>
-    <p><b>Lokasi:</b> {{ report.location }}</p>
-    <p><b>Status:</b> {{ report.status }}</p>
+        <a href="/add/" class="btn"
+           style="
+           background: linear-gradient(45deg,#ff6ec4,#7873f5);
+           color:white;
+           padding:10px 20px;
+           border-radius:10px;
+           margin-right:10px;
+           text-decoration:none;
+           ">
+           Tambah Laporan
+        </a>
 
-    <a href="/update/{{ report.id }}">Edit</a> |
-    <a href="/delete/{{ report.id }}">Hapus</a> |
+        <a href="/reports/" class="btn"
+           style="
+           background: rgba(255,255,255,0.2);
+           color:white;
+           padding:10px 20px;
+           border-radius:10px;
+           text-decoration:none;
+           ">
+           Lihat Laporan
+        </a>
 
-    {% if report.status == "REPORTED" %}
-        <a href="/verify/{{ report.id }}">Verifikasi</a>
-    {% else %}
-        ✔ Sudah Diverifikasi
-    {% endif %}
+    </div>
 
 </div>
-{% endfor %}
+
+{% endblock %}

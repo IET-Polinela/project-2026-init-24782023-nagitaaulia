@@ -1,34 +1,112 @@
-<h1>Selamat Datang di velmoracity</h1>
+{% extends 'base.html' %}
 
-<p>Website untuk pelaporan masalah.</p>
+{% block content %}
 
-<h2>Daftar Laporan</h2>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active">Reports</li>
+  </ol>
+</nav>
 
-<a href="{% url 'report_add' %}">Tambah Laporan</a>
-
-<hr>
-
-{% for report in reports %}
-<div style="border:1px solid black; padding:10px; margin:10px;">
-
-    <p><b>Judul:</b> {{ report.title }}</p>
-    <p><b>Lokasi:</b> {{ report.location }}</p>
-    <p><b>Status:</b> {{ report.status }}</p>
-
-    <a href="{% url 'report_edit' report.id %}">Edit</a> |
-    <a href="{% url 'report_delete' report.id %}">Hapus</a>
-    <a href="{% url 'report_detail' report.id %}">Detail</a>
-
-    <form method="POST" action="{% url 'report_status' report.id %}">
-        {% csrf_token %}
-        <select name="status">
-            <option value="REPORTED">Reported</option>
-            <option value="VERIFIED">Verified</option>
-            <option value="IN_PROGRESS">In Progress</option>
-            <option value="RESOLVED">Resolved</option>
-        </select>
-        <button type="submit">Ubah Status</button>
-    </form>
+<!-- JUDUL -->
+<div style="text-align: center;">
+    <h1 style="font-weight: bold;">Daftar Laporan</h1>
 
 </div>
-{% endfor %}
+
+{% if reports %}
+
+<div class="table-responsive">
+    <table class="table text-white" style="background: rgba(255,255,255,0.1); border-radius:15px; overflow:hidden;">
+        
+    
+    <thead style="background: linear-gradient(90deg, #ff6ec4, #7873f5);">
+        <tr>
+            <th>Judul</th>
+            <th>Lokasi</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for report in reports %}
+    <tr style="background: rgba(255,255,255,0.05);">
+
+        <td>{{ report.title }}</td>
+        <td>{{ report.location }}</td>
+
+        <!-- STATUS -->
+            <td>
+        {% if report.status == "REPORTED" %}
+            <span class="badge badge-reported">Reported</span>
+
+        {% elif report.status == "VERIFIED" %}
+            <span class="badge badge-verified">Verified</span>
+
+        {% elif report.status == "IN_PROGRESS" %}
+            <span class="badge badge-progress">In Progress</span>
+
+        {% else %}
+            <span class="badge badge-resolved">Resolved</span>
+        {% endif %}
+    </td>
+
+        <!-- AKSI -->
+        <td>
+            <a href="/edit/{{ report.id }}" class="btn btn-warning btn-sm"
+               style="background: linear-gradient(45deg, #ff6ec4, #7873f5); color:white;">
+               Edit
+            </a>
+
+            <a href="/delete/{{ report.id }}" class="btn btn-danger btn-sm"
+               style="background: linear-gradient(45deg, #ff4d6d, #ff6ec4); color:white;">
+               Hapus
+            </a>
+
+            {% if report.status == "REPORTED" %}
+            <form method="POST" action="/status/{{ report.id }}/" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="status" value="VERIFIED">
+                <button class="btn btn-info btn-sm"
+                        style="background: linear-gradient(45deg, #ff6ec4, #7873f5); color:white;">
+                    Verifikasi
+                </button>
+            </form>
+
+            {% elif report.status == "VERIFIED" %}
+            <form method="POST" action="/status/{{ report.id }}/" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="status" value="IN_PROGRESS">
+                <button class="btn btn-sm"
+                        style="background: #6c63ff; color:white;">
+                    Proses
+                </button>
+            </form>
+
+            {% elif report.status == "IN_PROGRESS" %}
+            <form method="POST" action="/status/{{ report.id }}/" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="status" value="RESOLVED">
+                <button class="btn btn-sm"
+                        style="background: #00c9a7; color:white;">
+                    Selesai
+                </button>
+            </form>
+            {% endif %}
+        </td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+<div class="text-center">
+    <p>Belum ada laporan</p>
+    <a href="/add/" class="btn btn-primary">Tambah Laporan</a>
+</div>
+{% endif %}
+
+{% endblock %}
