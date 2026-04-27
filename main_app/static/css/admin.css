@@ -1,0 +1,63 @@
+/* Background utama */
+body.login, body {
+    background: linear-gradient(135deg, #ff6ec4, #7873f5);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Box login */
+.login #container {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    padding: 30px;
+}
+
+/* Header admin */
+#header {
+    background: linear-gradient(90deg, #ff6ec4, #7873f5);
+    color: white;
+}
+
+/* Tombol */
+button, input[type=submit] {
+    background: #6f42c1;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 15px;
+}
+
+button:hover {
+    background: #5a32a3;
+}
+
+/* Link */
+a {
+    color: #ff6ec4;
+}
+
+/* Table */
+.module {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button, input[type="submit"] {
+    width: 100%;
+    background: linear-gradient(90deg, #ff6ec4, #7873f5);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+}
