@@ -1,4 +1,5 @@
 from django.urls import path
+from . import views
 from .views import (
     ReportListView,
     ReportCreateView,
@@ -6,6 +7,7 @@ from .views import (
     ReportDeleteView,
     ReportUpdateStatusView,
     ReportDetailView,
+    report_detail_json,
     home,
     about,
     contacts
@@ -16,6 +18,7 @@ urlpatterns = [
 
     # LIST
     path('reports/', ReportListView.as_view(), name='report_list'),
+    path('search/', views.live_search, name='live_search'),
 
     # CRUD
     path('add/', ReportCreateView.as_view(), name='report_add'),
@@ -27,6 +30,7 @@ urlpatterns = [
 
     # DETAIL (PAKAI SATU SAJA)
     path('detail/<int:pk>/', ReportDetailView.as_view(), name='report_detail'),
+    path('detail-json/<int:pk>/', report_detail_json, name='report_detail_json'),
 
     # STATIC PAGE
     path('about/', about, name='about'),

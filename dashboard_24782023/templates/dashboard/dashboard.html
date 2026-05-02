@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 style="text-align:center; font-weight:bold;">Dashboard</h2>
+
+<!-- CHART -->
+<div style="display:flex; gap:30px; flex-wrap:wrap; justify-content:center; margin-bottom:40px;">
+
+    <!-- STATUS -->
+    <div style="width:400px; background: rgba(255,255,255,0.1); padding:20px; border-radius:15px;">
+        <h5 style="text-align:center;">Distribusi Status</h5>
+        <canvas id="statusChart"></canvas>
+    </div>
+
+    <!-- CATEGORY -->
+    <div style="width:400px; background: rgba(255,255,255,0.1); padding:20px; border-radius:15px;">
+        <h5 style="text-align:center;">Distribusi Kategori</h5>
+        <canvas id="categoryChart"></canvas>
+    </div>
+
+</div>
+
+<!-- TABLE -->
+<div style="display:flex; gap:30px; flex-wrap:wrap; justify-content:center;">
+
+    <!-- REPORTED -->
+    <div style="width:500px;">
+        <h5>5 Laporan Terbaru (REPORTED)</h5>
+        <table class="table text-white" style="background: rgba(255,255,255,0.1); border-radius:10px;">
+            <thead style="background: linear-gradient(90deg, #ff6ec4, #7873f5);">
+                <tr>
+                    <th>Judul</th>
+                    <th>Lokasi</th>
+                </tr>
+            </thead>
+            <tbody id="reportedTable"></tbody>
+        </table>
+    </div>
+
+    <!-- RESOLVED -->
+    <div style="width:500px;">
+        <h5>5 Laporan Terbaru (RESOLVED)</h5>
+        <table class="table text-white" style="background: rgba(255,255,255,0.1); border-radius:10px;">
+            <thead style="background: linear-gradient(90deg, #ff6ec4, #7873f5);">
+                <tr>
+                    <th>Judul</th>
+                    <th>Lokasi</th>
+                </tr>
+            </thead>
+            <tbody id="resolvedTable"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+fetch('/dashboard/data/')
+.then(res => res.json())
+.then(data => {
+
+    // ====================
+    // STATUS CHART
+    // ====================
+    const statusLabels = data.status.map(item => item.status)
+    const statusValues = data.status.map(item => item.total)
+
+    new Chart(document.getElementById('statusChart'), {
+        type: 'doughnut',
+        data: {
+            labels: statusLabels,
+            datasets: [{
+                data: statusValues
+            }]
+        }
+    })
+
+    // ====================
+    // CATEGORY CHART
+    // ====================
+    const catLabels = data.category.map(item => item.category)
+    const catValues = data.category.map(item => item.total)
+
+    new Chart(document.getElementById('categoryChart'), {
+        type: 'bar',
+        data: {
+            labels: catLabels,
+            datasets: [{
+                data: catValues
+            }]
+        }
+    })
+
+    // ====================
+    // TABLE REPORTED
+    // ====================
+    let reportedHTML = ''
+    data.latest_reported.forEach(item => {
+        reportedHTML += `
+            <tr>
+                <td>${item.title}</td>
+                <td>${item.location}</td>
+            </tr>
+        `
+    })
+    document.getElementById('reportedTable').innerHTML = reportedHTML
+
+
+    // ====================
+    // TABLE RESOLVED
+    // ====================
+    let resolvedHTML = ''
+    data.latest_resolved.forEach(item => {
+        resolvedHTML += `
+            <tr>
+                <td>${item.title}</td>
+                <td>${item.location}</td>
+            </tr>
+        `
+    })
+    document.getElementById('resolvedTable').innerHTML = resolvedHTML
+
+})
+</script>
+
+{% endblock %}

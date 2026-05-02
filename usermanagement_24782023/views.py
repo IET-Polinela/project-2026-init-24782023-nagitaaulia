@@ -2,8 +2,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from .forms import RegisterForm
+from django.contrib.auth.views import LoginView
 
 # ================= LOGIN =================
 class CustomLoginView(LoginView):
@@ -18,6 +20,10 @@ class CustomLoginView(LoginView):
             return '/admin/'
         return '/'
 
+    template_name = 'registration/login.html'
+
+    def get_success_url(self):
+        return reverse('report_list')
 
 # ================= LOGOUT =================
 class CustomLogoutView(LogoutView):

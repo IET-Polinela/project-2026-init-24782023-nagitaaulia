@@ -3,6 +3,8 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Report
+from django.http import JsonResponse
+from django.db.models import Q
 
 
 class AdminRequiredMixin:
@@ -23,9 +25,12 @@ class ReportListView(ListView):
             messages.error(request, "Silakan login dulu!")
             return redirect('login')
         return super().dispatch(request, *args, **kwargs)
-    
-    def get_queryset(self):
-        return Report.objects.all().order_by('-id')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Report.objects.values_list('category', flat=True).distinct()
+        return context
 
 
 # DETAIL
@@ -105,3 +110,39 @@ def about(request):
 
 def contacts(request):
     return render(request, 'contacts/contacts.html')
+
+def live_search(request):
+    query = request.GET.get('q', '').strip()
+
+    reports = Report.objects.all()
+
+    if query:
+        reports = reports.filter(
+            Q(category__icontains=query)
+        )
+
+    data = []
+    for r in reports:
+        data.append({
+            'id': r.id,
+            'title': r.title,
+            'category': r.category,
+            'location': r.location,
+            'status': r.status,
+        })
+
+    return JsonResponse(data, safe=False)
+
+def report_detail_json(request, pk):
+    report = get_object_or_404(Report, pk=pk)
+
+    data = {
+        'id': report.id,
+        'title': report.title,
+        'category': report.category,
+        'description': report.description,
+        'location': report.location,
+        'status': report.status,
+    }
+
+    return JsonResponse(data)

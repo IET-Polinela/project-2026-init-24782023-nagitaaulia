@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'main_app',
     'about',
     'contacts',
+    'dashboard_24782023',
 ]
 
 AUTH_USER_MODEL = 'usermanagement_24782023.CustomUser'
