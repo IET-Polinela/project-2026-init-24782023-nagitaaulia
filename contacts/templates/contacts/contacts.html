@@ -1,5 +1,96 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h2>Contacts</h2>
-<p>Email: velmora@email.com</p>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 style="font-weight: bold;">Hubungi Kami</h1>
+        <p style="font-size:18px;">
+            Silakan hubungi Velmoracity jika kamu memiliki pertanyaan, saran, atau laporan tambahan.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card text-white h-100" style="
+                background: rgba(255,255,255,0.15);
+                border: none;
+                border-radius: 18px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            ">
+                <div class="card-body text-center">
+                    <h4>Email</h4>
+                    <p>velmora@email.com</p>
+                    <p class="small">Kirim pertanyaan atau laporan melalui email resmi kami.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white h-100" style="
+                background: rgba(255,255,255,0.15);
+                border: none;
+                border-radius: 18px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            ">
+                <div class="card-body text-center">
+                    <h4>Telepon</h4>
+                    <p>+62 812-3456-7890</p>
+                    <p class="small">Layanan aktif setiap Senin - Jumat pukul 08.00 - 16.00.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white h-100" style="
+                background: rgba(255,255,255,0.15);
+                border: none;
+                border-radius: 18px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            ">
+                <div class="card-body text-center">
+                    <h4>Alamat</h4>
+                    <p>Jl. Merdeka No. 10, Jakarta</p>
+                    <p class="small">Kantor pusat layanan pengaduan masyarakat Velmoracity.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 p-4 text-white" style="
+        background: rgba(255,255,255,0.15);
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    ">
+        <h3 style="font-weight:bold;">Form Kontak</h3>
+        <p>Kirim pesan singkat kepada tim kami.</p>
+
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Nama</label>
+                <input type="text" class="form-control" placeholder="Masukkan nama kamu">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="Masukkan email kamu">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Pesan</label>
+                <textarea class="form-control" rows="4" placeholder="Tulis pesan kamu di sini"></textarea>
+            </div>
+
+            <button type="button" class="btn" style="
+                background: linear-gradient(45deg, #ff6ec4, #7873f5);
+                color:white;
+                border-radius: 12px;
+                padding: 10px 25px;
+            ">
+                Kirim Pesan
+            </button>
+        </form>
+    </div>
+</div>
+
 {% endblock %}
