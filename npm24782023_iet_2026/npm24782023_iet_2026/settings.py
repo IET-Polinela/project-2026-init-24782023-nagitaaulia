@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'dashboard_24782023',
     'rest_framework',
     'rest_framework_simplejwt',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -60,6 +61,7 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'usermanagement_24782023.CustomUser'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -142,3 +144,4 @@ STATIC_URL = 'static/'
 # Redirect setelah login/logout
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+CORS_ALLOW_ALL_ORIGINS = True
