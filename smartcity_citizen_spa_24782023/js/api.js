@@ -1,31 +1,75 @@
 const API_BASE_URL = "http://127.0.0.1:8000/api";
 
-async function requestAPI(endpoint, method = "GET", bodyData = null) {
-  const headers = {
-    "Content-Type": "application/json",
-  };
+async function requestAPI(
+    endpoint,
+    method = "GET",
+    bodyData = null
+) {
 
-  const accessToken = localStorage.getItem("access_token");
+    const headers = {
+        "Content-Type": "application/json"
+    };
 
-  if (accessToken) {
-    headers["Authorization"] = `Bearer ${accessToken}`;
-  }
+    const accessToken =
+        localStorage.getItem(
+            "access_token"
+        );
 
-  const options = {
-    method: method,
-    headers: headers,
-  };
+    if(accessToken){
 
-  if (bodyData) {
-    options.body = JSON.stringify(bodyData);
-  }
+        headers["Authorization"] =
+            `Bearer ${accessToken}`;
+    }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
-  const data = await response.json().catch(() => null);
+    const options = {
+        method,
+        headers
+    };
 
-  return {
-    status: response.status,
-    ok: response.ok,
-    data: data,
-  };
+    if(bodyData){
+
+        options.body =
+            JSON.stringify(bodyData);
+    }
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}${endpoint}`,
+                options
+            );
+
+        const data =
+            await response
+                .json()
+                .catch(() => null);
+
+        return {
+
+            ok: response.ok,
+
+            status: response.status,
+
+            data
+
+        };
+
+    }catch(error){
+
+        console.error(
+            "API Error:",
+            error
+        );
+
+        return {
+
+            ok: false,
+
+            status: 500,
+
+            data: null
+
+        };
+    }
 }
