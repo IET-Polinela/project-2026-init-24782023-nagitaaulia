@@ -1,3 +1,0 @@
-NPM:24782023
-
-NAMA:Nagita Aulia

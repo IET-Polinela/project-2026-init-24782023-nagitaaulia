@@ -31,6 +31,21 @@ let editingReportId = null;
 
 function openCreateModal() {
 
+  const username =
+    localStorage.getItem(
+      "username"
+    );
+
+  if (
+    username &&
+    username.toLowerCase() === "admin"
+  ) {
+    alert(
+      "Admin tidak diperbolehkan membuat laporan."
+    );
+    return;
+  }
+
   editingReportId = null;
 
   const form =
@@ -42,11 +57,12 @@ function openCreateModal() {
     form.reset();
   }
 
-  const modal = new bootstrap.Modal(
-    document.getElementById(
-      "reportModal"
-    )
-  );
+  const modal =
+    new bootstrap.Modal(
+      document.getElementById(
+        "reportModal"
+      )
+    );
 
   modal.show();
 }
@@ -339,11 +355,14 @@ async function editDraft(id) {
   modal.show();
 }
 
+
 // ======================
 // SUBMIT REPORT
 // ======================
 
 async function submitReport(status) {
+
+  alert("Tombol diklik: " + status);
 
   const payload = {
 
@@ -367,14 +386,28 @@ async function submitReport(status) {
         "description"
       ).value,
 
-    status
+    status: status
+
   };
 
   let response;
 
-  if (
-    editingReportId === null
-  ) {
+  try {
+
+    if (
+      editingReportId === null
+    ) {
+
+      response =
+        await requestAPI(
+          "/report/",
+          "POST",
+          payload
+        );
+
+    } else {
+
+      console.log("STEP 1");
 
     response =
       await requestAPI(
@@ -383,44 +416,87 @@ async function submitReport(status) {
         payload
       );
 
-  } else {
+    console.log("STEP 2");
+    console.log(response);
 
-    response =
-      await requestAPI(
-        `/report/${editingReportId}/`,
-        "PUT",
-        payload
+    if (
+      response.status === 200 ||
+      response.status === 201
+    ) {
+
+      console.log("STEP 3");
+
+    } else {
+
+      console.log("STEP 4");
+
+      alert(
+        JSON.stringify(response.data)
       );
-  }
+    }
 
-  if (
-    response.status === 200
-    ||
-    response.status === 201
-  ) {
+    console.log(
+      "Response submit:",
+      response
+    );
 
-    document
-      .getElementById(
-        "reportForm"
-      )
-      .reset();
+    if (
+      response.status === 200 ||
+      response.status === 201
+    ) {
 
-    editingReportId = null;
+      alert(
+        "Laporan berhasil disimpan!"
+      );
 
-    const modal =
-      bootstrap.Modal.getInstance(
-        document.getElementById(
-          "reportModal"
+      document
+        .getElementById(
+          "reportForm"
+        )
+        .reset();
+
+      editingReportId = null;
+
+      const modal =
+        bootstrap.Modal.getInstance(
+          document.getElementById(
+            "reportModal"
+          )
+        );
+
+      if (modal) {
+        modal.hide();
+      }
+
+      loadDashboardData(
+        currentTab,
+        currentPage
+      );
+
+    } else {
+
+      console.log(
+        "ERROR RESPONSE:",
+        response
+      );
+
+      alert(
+        JSON.stringify(
+          response.data
         )
       );
 
-    if (modal) {
-      modal.hide();
     }
 
-    loadDashboardData(
-      currentTab,
-      currentPage
+  } catch (error) {
+
+    console.error(
+      "Submit Error:",
+      error
+    );
+
+    alert(
+      "Terjadi kesalahan saat menyimpan laporan!"
     );
   }
 }
