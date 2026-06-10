@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container text-white">
+
+    <h1 class="mb-4 text-center">Detail Laporan</h1>
+
+    <div class="card p-4"
+         style="background: rgba(255,255,255,0.1); border-radius:15px;">
+
+        <p><strong>Judul:</strong> {{ report.title }}</p>
+
+        <p><strong>Kategori:</strong> {{ report.category }}</p>
+
+        <p><strong>Lokasi:</strong> {{ report.location }}</p>
+
+        <p><strong>Status:</strong>
+            {% if report.status == "REPORTED" %}
+                <span class="badge bg-secondary">Reported</span>
+
+            {% elif report.status == "VERIFIED" %}
+                <span class="badge bg-purple">Verified</span>
+
+            {% elif report.status == "IN_PROGRESS" %}
+                <span class="badge bg-info text-dark">In Progress</span>
+
+            {% else %}
+                <span class="badge bg-success">Resolved</span>
+            {% endif %}
+        </p>
+
+        <p><strong>Deskripsi:</strong><br>
+            {{ report.description }}
+        </p>
+
+        <p><strong>Dibuat pada:</strong>
+            {{ report.created_at|date:"d M Y H:i" }} WIB
+        </p>
+
+        <div class="mt-3">
+            <a href="/reports/" class="btn btn-glass">Kembali</a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

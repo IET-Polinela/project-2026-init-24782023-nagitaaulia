@@ -1,0 +1,99 @@
+{% extends "rest_framework/base.html" %}
+
+{% block style %}
+{{ block.super }}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #ff6ec4, #7873f5) !important;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .navbar {
+        background: rgba(255,255,255,0.18) !important;
+        backdrop-filter: blur(10px);
+        border: none !important;
+        margin: 30px auto 0;
+        max-width: 1180px;
+        border-radius: 22px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    }
+
+    .navbar-brand {
+        color: white !important;
+        font-weight: 800;
+        font-size: 22px;
+    }
+
+    .wrapper {
+        background: rgba(255,255,255,0.20) !important;
+        backdrop-filter: blur(14px);
+        max-width: 1180px;
+        margin: 30px auto;
+        border-radius: 24px;
+        padding: 28px;
+        box-shadow: 0 18px 45px rgba(0,0,0,0.25);
+    }
+
+    .container {
+        width: 100% !important;
+    }
+
+    .breadcrumb {
+        background: rgba(255,255,255,0.35) !important;
+        border-radius: 14px;
+        padding: 12px 18px;
+    }
+
+    h1 {
+        color: white !important;
+        font-weight: 800;
+        text-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    }
+
+    .request-info,
+    .response-info,
+    .prettyprint,
+    pre {
+        background: rgba(255,255,255,0.92) !important;
+        border: none !important;
+        border-radius: 18px !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    pre {
+        padding: 24px !important;
+        overflow-x: auto;
+    }
+
+    .btn-primary,
+    .btn {
+        border: none !important;
+        border-radius: 12px !important;
+        font-weight: 600;
+    }
+
+    .btn-primary,
+    .btn-info,
+    .btn-default {
+        background: linear-gradient(45deg, #ff6ec4, #7873f5) !important;
+        color: white !important;
+    }
+
+    .dropdown-menu {
+        border-radius: 14px;
+        border: none;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+    }
+
+    code,
+    .prettyprint {
+        color: #e6005c !important;
+    }
+
+    a {
+        color: #a100ff !important;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
