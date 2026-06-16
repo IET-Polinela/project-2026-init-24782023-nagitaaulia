@@ -94,12 +94,10 @@ class ReportDeleteView(LoginRequiredMixin, DeleteView):
 
         if (
             report.reporter != request.user
-            and not request.user.is_staff
+            and not request.user.is_admin
+            and not request.user.is_superuser
         ):
-            messages.error(
-                request,
-                "Anda hanya bisa menghapus laporan sendiri!"
-            )
+            messages.error(request, "Anda hanya bisa menghapus laporan anda!")
             return redirect('report_list')
 
         return super().dispatch(request, *args, **kwargs)
