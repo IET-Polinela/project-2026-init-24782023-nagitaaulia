@@ -362,106 +362,52 @@ async function editDraft(id) {
 
 async function submitReport(status) {
 
-  alert("Tombol diklik: " + status);
-
   const payload = {
-
-    title:
-      document.getElementById(
-        "title"
-      ).value,
-
-    category:
-      document.getElementById(
-        "category"
-      ).value,
-
-    location:
-      document.getElementById(
-        "location"
-      ).value,
-
-    description:
-      document.getElementById(
-        "description"
-      ).value,
-
+    title: document.getElementById("title").value,
+    category: document.getElementById("category").value,
+    location: document.getElementById("location").value,
+    description: document.getElementById("description").value,
     status: status
-
   };
 
   let response;
 
   try {
 
-    if (
-      editingReportId === null
-    ) {
+    if (editingReportId === null) {
 
-      response =
-        await requestAPI(
-          "/report/",
-          "POST",
-          payload
-        );
-
-    } else {
-
-      console.log("STEP 1");
-
-    response =
-      await requestAPI(
+      response = await requestAPI(
         "/report/",
         "POST",
         payload
       );
 
-    console.log("STEP 2");
-    console.log(response);
-
-    if (
-      response.status === 200 ||
-      response.status === 201
-    ) {
-
-      console.log("STEP 3");
-
     } else {
 
-      console.log("STEP 4");
-
-      alert(
-        JSON.stringify(response.data)
+      response = await requestAPI(
+        `/report/${editingReportId}/`,
+        "PUT",
+        payload
       );
-    }
 
-    console.log(
-      "Response submit:",
-      response
-    );
+    }
 
     if (
       response.status === 200 ||
       response.status === 201
     ) {
 
-      alert(
-        "Laporan berhasil disimpan!"
-      );
+      alert("Laporan berhasil disimpan!");
 
       document
-        .getElementById(
-          "reportForm"
-        )
+        .getElementById("reportForm")
         .reset();
 
       editingReportId = null;
 
       const modal =
         bootstrap.Modal.getInstance(
-          document.getElementById(
-            "reportModal"
-          )
+          document.getElementById("reportModal")
         );
 
       if (modal) {
@@ -475,15 +421,8 @@ async function submitReport(status) {
 
     } else {
 
-      console.log(
-        "ERROR RESPONSE:",
-        response
-      );
-
       alert(
-        JSON.stringify(
-          response.data
-        )
+        JSON.stringify(response.data)
       );
 
     }
@@ -498,5 +437,7 @@ async function submitReport(status) {
     alert(
       "Terjadi kesalahan saat menyimpan laporan!"
     );
+
   }
+
 }
