@@ -92,8 +92,14 @@ class ReportDeleteView(LoginRequiredMixin, DeleteView):
     def dispatch(self, request, *args, **kwargs):
         report = self.get_object()
 
-        if report.reporter != request.user:
-            messages.error(request, "Anda hanya bisa menghapus laporan sendiri!")
+        if (
+            report.reporter != request.user
+            and not request.user.is_staff
+        ):
+            messages.error(
+                request,
+                "Anda hanya bisa menghapus laporan sendiri!"
+            )
             return redirect('report_list')
 
         return super().dispatch(request, *args, **kwargs)
@@ -102,7 +108,7 @@ class ReportDeleteView(LoginRequiredMixin, DeleteView):
 # UPDATE STATUS
 class ReportUpdateStatusView(View):
     def post(self, request, pk):
-        if not request.user.is_authenticated or not request.user.is_admin:
+        if not request.user.is_authenticated or not request.user.is_staff:
             messages.error(request, "Akses Ditolak!")
             return redirect('report_list')
 
