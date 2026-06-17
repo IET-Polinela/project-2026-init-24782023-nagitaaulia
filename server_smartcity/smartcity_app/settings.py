@@ -29,6 +29,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://103.151.63.84:8006",
+    "https://iet-polinela.github.io/project-2026-init-24782023-nagitaaulia/",
+]
 
 # Application definition
 
@@ -47,6 +51,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'drf_spectacular',
+    'django_scalar',
 ]
 
 REST_FRAMEWORK = {
@@ -54,9 +60,26 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
+
+    'DEFAULT_SCHEMA_CLASS':
+        'drf_spectacular.openapi.AutoSchema',
+
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+}
+
+SPECTACULAR_SETTINGS = {
+
+    'TITLE': 'Velmora City Portal API',
+
+    'DESCRIPTION':
+        'Dokumentasi REST API resmi untuk Portal Pelaporan Warga',
+
+    'VERSION': '1.0.0',
+
+    'SERVE_INCLUDE_SCHEMA': False,
+
 }
 
 AUTH_USER_MODEL = 'usermanagement_24782023.CustomUser'
@@ -153,4 +176,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=12),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
